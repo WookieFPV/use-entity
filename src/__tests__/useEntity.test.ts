@@ -171,4 +171,101 @@ describe("useEntity", () => {
 			name: "Beta+",
 		});
 	});
+
+	test("selector full returns the full selector object", () => {
+		const { useTanstackEntity } = createEntityStore<TestEntity>([
+			{ id: "1", name: "Alpha" },
+			{ id: "2", name: "Beta" },
+		]);
+		const { result } = renderHook(() => useTanstackEntity("full"));
+
+		expect(result.current[0].all).toEqual([
+			{ id: "1", name: "Alpha" },
+			{ id: "2", name: "Beta" },
+		]);
+		expect(result.current[0].byId("2")).toEqual({ id: "2", name: "Beta" });
+	});
+
+	test("selector all returns array of entities", () => {
+		const { useTanstackEntity } = createEntityStore<TestEntity>([
+			{ id: "1", name: "Alpha" },
+		]);
+		const { result } = renderHook(() => useTanstackEntity("all"));
+		const [, actions] = result.current;
+
+		expect(result.current[0]).toEqual([{ id: "1", name: "Alpha" }]);
+
+		act(() => {
+			actions.addOne({ id: "2", name: "Beta" });
+		});
+
+		expect(result.current[0]).toEqual([
+			{ id: "1", name: "Alpha" },
+			{ id: "2", name: "Beta" },
+		]);
+	});
+
+	test("selector ids returns array of entity ids", () => {
+		const { useTanstackEntity } = createEntityStore<TestEntity>([
+			{ id: "1", name: "Alpha" },
+			{ id: "2", name: "Beta" },
+		]);
+		const { result } = renderHook(() => useTanstackEntity("ids"));
+		const [, actions] = result.current;
+
+		expect([...result.current[0]].sort()).toEqual(["1", "2"]);
+
+		act(() => {
+			actions.addOne({ id: "3", name: "Gamma" });
+		});
+
+		expect([...result.current[0]].sort()).toEqual(["1", "2", "3"]);
+	});
+
+	test("selector entities returns entity map", () => {
+		const { useTanstackEntity } = createEntityStore<TestEntity>([
+			{ id: "1", name: "Alpha" },
+		]);
+		const { result } = renderHook(() => useTanstackEntity("entities"));
+		const [, actions] = result.current;
+
+		expect(result.current[0]).toEqual({
+			"1": { id: "1", name: "Alpha" },
+		});
+
+		act(() => {
+			actions.addOne({ id: "2", name: "Beta" });
+		});
+
+		expect(result.current[0]).toEqual({
+			"1": { id: "1", name: "Alpha" },
+			"2": { id: "2", name: "Beta" },
+		});
+	});
+
+	test("selector total returns total entity count", () => {
+		const { useTanstackEntity } = createEntityStore<TestEntity>([
+			{ id: "1", name: "Alpha" },
+			{ id: "2", name: "Beta" },
+		]);
+		const { result } = renderHook(() => useTanstackEntity("total"));
+		const [, actions] = result.current;
+
+		expect(result.current[0]).toBe(2);
+
+		act(() => {
+			actions.removeOne("1");
+		});
+
+		expect(result.current[0]).toBe(1);
+	});
+
+	test("defaults to full selector when no selector is provided", () => {
+		const { useTanstackEntity } = createEntityStore<TestEntity>([
+			{ id: "1", name: "Alpha" },
+		]);
+		const { result } = renderHook(() => useTanstackEntity());
+
+		expect(result.current[0].all).toEqual([{ id: "1", name: "Alpha" }]);
+	});
 });
