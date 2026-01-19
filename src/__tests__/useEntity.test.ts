@@ -10,9 +10,9 @@ describe("useEntity", () => {
 			{ id: "1", name: "Alpha" },
 			{ id: "2", name: "Beta" },
 		];
-		const { useTanstackEntity } = createEntityStore<TestEntity>(initial);
+		const { useEntity } = createEntityStore<TestEntity>(initial);
 
-		const { result } = renderHook(() => useTanstackEntity());
+		const { result } = renderHook(() => useEntity());
 
 		expect(result.current[0].all).toEqual(initial);
 		expect(result.current[0].ids).toEqual(["1", "2"]);
@@ -23,8 +23,8 @@ describe("useEntity", () => {
 	});
 
 	test("supports add and remove operations", () => {
-		const { useTanstackEntity } = createEntityStore<TestEntity>();
-		const { result } = renderHook(() => useTanstackEntity());
+		const { useEntity } = createEntityStore<TestEntity>();
+		const { result } = renderHook(() => useEntity());
 		const [, actions] = result.current;
 
 		act(() => {
@@ -54,10 +54,10 @@ describe("useEntity", () => {
 	});
 
 	test("supports update and upsert operations", () => {
-		const { useTanstackEntity } = createEntityStore<TestEntity>([
+		const { useEntity } = createEntityStore<TestEntity>([
 			{ id: "1", name: "Alpha" },
 		]);
-		const { result } = renderHook(() => useTanstackEntity());
+		const { result } = renderHook(() => useEntity());
 		const [, actions] = result.current;
 
 		act(() => {
@@ -96,8 +96,8 @@ describe("useEntity", () => {
 	});
 
 	test("supports set operations and total/entities selectors", () => {
-		const { useTanstackEntity } = createEntityStore<TestEntity>();
-		const { result } = renderHook(() => useTanstackEntity());
+		const { useEntity } = createEntityStore<TestEntity>();
+		const { result } = renderHook(() => useEntity());
 		const [, actions] = result.current;
 
 		act(() => {
@@ -124,17 +124,17 @@ describe("useEntity", () => {
 	});
 
 	test("returns undefined for missing entities", () => {
-		const { useTanstackEntity } = createEntityStore<TestEntity>();
-		const { result } = renderHook(() => useTanstackEntity());
+		const { useEntity } = createEntityStore<TestEntity>();
+		const { result } = renderHook(() => useEntity());
 
 		expect(result.current[0].byId("missing")).toBeUndefined();
 	});
 
 	test("ignores remove/update of missing entities", () => {
-		const { useTanstackEntity } = createEntityStore<TestEntity>([
+		const { useEntity } = createEntityStore<TestEntity>([
 			{ id: "1", name: "Alpha" },
 		]);
-		const { result } = renderHook(() => useTanstackEntity());
+		const { result } = renderHook(() => useEntity());
 		const [, actions] = result.current;
 
 		act(() => {
@@ -148,8 +148,8 @@ describe("useEntity", () => {
 	});
 
 	test("keeps selectors in sync after multiple operations", () => {
-		const { useTanstackEntity } = createEntityStore<TestEntity>();
-		const { result } = renderHook(() => useTanstackEntity());
+		const { useEntity } = createEntityStore<TestEntity>();
+		const { result } = renderHook(() => useEntity());
 		const [, actions] = result.current;
 
 		act(() => {
@@ -173,11 +173,11 @@ describe("useEntity", () => {
 	});
 
 	test("selector full returns the full selector object", () => {
-		const { useTanstackEntity } = createEntityStore<TestEntity>([
+		const { useEntity } = createEntityStore<TestEntity>([
 			{ id: "1", name: "Alpha" },
 			{ id: "2", name: "Beta" },
 		]);
-		const { result } = renderHook(() => useTanstackEntity("full"));
+		const { result } = renderHook(() => useEntity("full"));
 
 		expect(result.current[0].all).toEqual([
 			{ id: "1", name: "Alpha" },
@@ -187,10 +187,10 @@ describe("useEntity", () => {
 	});
 
 	test("selector all returns array of entities", () => {
-		const { useTanstackEntity } = createEntityStore<TestEntity>([
+		const { useEntity } = createEntityStore<TestEntity>([
 			{ id: "1", name: "Alpha" },
 		]);
-		const { result } = renderHook(() => useTanstackEntity("all"));
+		const { result } = renderHook(() => useEntity("all"));
 		const [, actions] = result.current;
 
 		expect(result.current[0]).toEqual([{ id: "1", name: "Alpha" }]);
@@ -206,11 +206,11 @@ describe("useEntity", () => {
 	});
 
 	test("selector ids returns array of entity ids", () => {
-		const { useTanstackEntity } = createEntityStore<TestEntity>([
+		const { useEntity } = createEntityStore<TestEntity>([
 			{ id: "1", name: "Alpha" },
 			{ id: "2", name: "Beta" },
 		]);
-		const { result } = renderHook(() => useTanstackEntity("ids"));
+		const { result } = renderHook(() => useEntity("ids"));
 		const [, actions] = result.current;
 
 		expect([...result.current[0]].sort()).toEqual(["1", "2"]);
@@ -223,10 +223,10 @@ describe("useEntity", () => {
 	});
 
 	test("selector entities returns entity map", () => {
-		const { useTanstackEntity } = createEntityStore<TestEntity>([
+		const { useEntity } = createEntityStore<TestEntity>([
 			{ id: "1", name: "Alpha" },
 		]);
-		const { result } = renderHook(() => useTanstackEntity("entities"));
+		const { result } = renderHook(() => useEntity("entities"));
 		const [, actions] = result.current;
 
 		expect(result.current[0]).toEqual({
@@ -244,11 +244,11 @@ describe("useEntity", () => {
 	});
 
 	test("selector total returns total entity count", () => {
-		const { useTanstackEntity } = createEntityStore<TestEntity>([
+		const { useEntity } = createEntityStore<TestEntity>([
 			{ id: "1", name: "Alpha" },
 			{ id: "2", name: "Beta" },
 		]);
-		const { result } = renderHook(() => useTanstackEntity("total"));
+		const { result } = renderHook(() => useEntity("total"));
 		const [, actions] = result.current;
 
 		expect(result.current[0]).toBe(2);
@@ -261,10 +261,10 @@ describe("useEntity", () => {
 	});
 
 	test("defaults to full selector when no selector is provided", () => {
-		const { useTanstackEntity } = createEntityStore<TestEntity>([
+		const { useEntity } = createEntityStore<TestEntity>([
 			{ id: "1", name: "Alpha" },
 		]);
-		const { result } = renderHook(() => useTanstackEntity());
+		const { result } = renderHook(() => useEntity());
 
 		expect(result.current[0].all).toEqual([{ id: "1", name: "Alpha" }]);
 	});

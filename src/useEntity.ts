@@ -98,18 +98,18 @@ export const createEntityStore = <
 		(typeof MySelectors)[K]
 	>;
 
-	function useTanstackEntity(): [
+	function useEntity(): [
 		SelectorReturn<"full">,
 		EntityStateAdapter<T, T["id"]>,
 	];
-	function useTanstackEntity(
+	function useEntity(
 		selector: "full",
 	): [SelectorReturn<"full">, EntityStateAdapter<T, T["id"]>];
-	function useTanstackEntity<K extends Exclude<SelectorKey, "full">>(
+	function useEntity<K extends Exclude<SelectorKey, "full">>(
 		selector: K,
 	): [SelectorReturn<K>, EntityStateAdapter<T, T["id"]>];
 
-	function useTanstackEntity<K extends SelectorKey>(selector: K = "full" as K) {
+	function useEntity<K extends SelectorKey>(selector: K = "full" as K) {
 		const entityState = useStore(
 			store,
 			MySelectors[selector] as () => SelectorReturn<K>,
@@ -124,5 +124,5 @@ export const createEntityStore = <
 		];
 	}
 
-	return { useTanstackEntity, store, adapter };
+	return { useEntity, store, adapter };
 };
