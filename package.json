@@ -1,6 +1,19 @@
 {
 	"name": "use-entity",
-	"module": "index.ts",
+	"main": "dist/index.cjs",
+	"module": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"sideEffects": false,
 	"type": "module",
 	"version": "0.0.1-alpha",
 	"scripts": {
@@ -8,6 +21,8 @@
 		"biome:fix": "biome check --write --unsafe",
 		"biome:format": "biome format --write",
 		"test": "bun test",
+		"build": "tsup",
+		"build:dev": "tsup --watch --clean false",
 		"typecheck": "tsc",
 		"test:coverage": "jest"
 	},
@@ -23,7 +38,8 @@
 		"@types/react": "19.2.8",
 		"@types/react-dom": "19.2.3",
 		"lefthook": "2.0.15",
-		"react": "^19.2.3"
+		"react": "^19.2.3",
+		"tsup": "8.5.1"
 	},
 	"peerDependencies": {
 		"typescript": "^5",
