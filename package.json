@@ -2,6 +2,7 @@
 	"name": "use-entity",
 	"module": "index.ts",
 	"type": "module",
+	"version": "0.0.1-alpha",
 	"scripts": {
 		"biome:check": "biome check",
 		"biome:fix": "biome check --write --unsafe",
