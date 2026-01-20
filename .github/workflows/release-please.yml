@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
-      NODE_ENV: production
       CI: true
 
     steps:
@@ -52,4 +51,6 @@ jobs:
 
       - name: Publish to npm
         run: npm publish --access public --provenance
+        env:
+          NODE_ENV: production
         if: ${{ steps.release.outputs.release_created }}
