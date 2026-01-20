@@ -13,6 +13,7 @@ permissions:
 jobs:
   release-please:
     runs-on: ubuntu-latest
+    environment: publish
     timeout-minutes: 5
     env:
       CI: true
