@@ -54,4 +54,5 @@ jobs:
         run: npm publish --access public --provenance
         env:
           NODE_ENV: production
+          NPM_CONFIG_PROVENANCE: "true"
         if: ${{ steps.release.outputs.release_created }}
