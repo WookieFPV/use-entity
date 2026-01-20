@@ -60,9 +60,15 @@ jobs:
       - run: bunx pkg-pr-new publish
         continue-on-error: true
 
+      - name: Configure npm for trusted publishing
+        run: echo "registry=https://registry.npmjs.org/" > "$RUNNER_TEMP/npmrc"
+
       - name: Publish to npm
         run: npm publish --access public --provenance
         env:
           NODE_ENV: production
           NPM_CONFIG_PROVENANCE: "true"
+          NPM_CONFIG_USERCONFIG: ${{ runner.temp }}/npmrc
+          NODE_AUTH_TOKEN: ""
+          NPM_TOKEN: ""
         if: ${{ steps.release.outputs.release_created }}
