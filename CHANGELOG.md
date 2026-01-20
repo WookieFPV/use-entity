@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.6-alpha](https://github.com/WookieFPV/use-entity/compare/v0.0.5-alpha...v0.0.6-alpha) (2026-01-20)
+
+
+### Bug Fixes
+
+* debug ([85a6299](https://github.com/WookieFPV/use-entity/commit/85a6299737084b7c142b978609ad9819e5440ee9))
+
 ## [0.0.5-alpha](https://github.com/WookieFPV/use-entity/compare/v0.0.4-alpha...v0.0.5-alpha) (2026-01-20)
 
 
