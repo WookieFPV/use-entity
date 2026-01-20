@@ -15,7 +15,7 @@
 	],
 	"sideEffects": false,
 	"type": "module",
-	"version": "0.0.1-alpha",
+	"version": "0.0.2-alpha",
 	"scripts": {
 		"biome:check": "biome check",
 		"biome:fix": "biome check --write --unsafe",
