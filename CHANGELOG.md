@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3-alpha](https://github.com/WookieFPV/use-entity/compare/v0.0.2-alpha...v0.0.3-alpha) (2026-01-20)
+
+
+### Bug Fixes
+
+* try to npm publish ([2e48a23](https://github.com/WookieFPV/use-entity/commit/2e48a23702e0c958ef622488ec2e408d09c3dcc4))
+
 ## 0.0.2-alpha (2026-01-20)
 
 
