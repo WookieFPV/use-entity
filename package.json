@@ -23,8 +23,7 @@
 		"test": "bun test",
 		"build": "tsup",
 		"build:dev": "tsup --watch --clean false",
-		"typecheck": "tsc",
-		"test:coverage": "jest"
+		"typecheck": "tsc"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.3.11",

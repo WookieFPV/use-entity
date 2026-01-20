@@ -5,10 +5,11 @@ import {
 	type EntityState,
 } from "@reduxjs/toolkit";
 import { Store, useStore } from "@tanstack/react-store";
-import { useMemo } from "react";
 import type { EntitySelectorsData, EntityStateAdapter } from "./types.ts";
 
-const getEntityActionsTanstack = <
+const noSelect = <T>(state: T): T => state;
+
+export const getEntityActionsTanstack = <
 	T extends {
 		id: string;
 	},
@@ -75,7 +76,7 @@ const getSelectors = <
 		(state: EntityState<T, T["id"]>) => unknown
 	>;
 
-export const createEntityStore = <
+export const entityStoreFactory = <
 	T extends {
 		id: string;
 	},
@@ -88,14 +89,26 @@ export const createEntityStore = <
 			? adapter.setAll(adapter.getInitialState(), initialState)
 			: adapter.getInitialState(),
 	);
-	const baseSelectors = adapter.getSelectors<EntityState<T, T["id"]>>(
-		(input) => input,
+	const actions = getEntityActionsTanstack(store, adapter);
+	const selectors = getSelectors(
+		adapter.getSelectors<EntityState<T, T["id"]>>(noSelect),
 	);
-	const MySelectors = getSelectors(baseSelectors);
+	return { store, adapter, selectors, actions };
+};
 
-	type SelectorKey = keyof typeof MySelectors;
+export const createEntityStore = <
+	T extends {
+		id: string;
+	},
+>(
+	initialState?: T[],
+) => {
+	const { adapter, store, actions, selectors } =
+		entityStoreFactory(initialState);
+
+	type SelectorKey = keyof typeof selectors;
 	type SelectorReturn<K extends SelectorKey> = ReturnType<
-		(typeof MySelectors)[K]
+		(typeof selectors)[K]
 	>;
 
 	function useEntity(): [
@@ -112,17 +125,14 @@ export const createEntityStore = <
 	function useEntity<K extends SelectorKey>(selector: K = "full" as K) {
 		const entityState = useStore(
 			store,
-			MySelectors[selector] as () => SelectorReturn<K>,
+			selectors[selector] as () => SelectorReturn<K>,
 		);
-		const actions = useMemo<EntityStateAdapter<T, T["id"]>>(
-			() => getEntityActionsTanstack(store, adapter),
-			[],
-		);
+
 		return [entityState, actions] satisfies [
 			SelectorReturn<K>,
 			EntityStateAdapter<T, T["id"]>,
 		];
 	}
 
-	return { useEntity, store, adapter };
+	return { useEntity, store, actions, adapter };
 };
