@@ -63,6 +63,16 @@ jobs:
       - name: Configure npm for trusted publishing
         run: echo "registry=https://registry.npmjs.org/" > "$RUNNER_TEMP/npmrc"
 
+      - name: Debug npm trusted publishing
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+          node --version
+          npm --version
+          npm config get userconfig
+          npm config get registry
+          echo "ACTIONS_ID_TOKEN_REQUEST_URL set: ${ACTIONS_ID_TOKEN_REQUEST_URL:+yes}"
+          echo "ACTIONS_ID_TOKEN_REQUEST_TOKEN set: ${ACTIONS_ID_TOKEN_REQUEST_TOKEN:+yes}"
+
       - name: Publish to npm
         run: npm publish --access public --provenance
         env:
