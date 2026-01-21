@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "**"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -56,8 +57,14 @@ jobs:
       - name: Run build
         run: bun run build
 
+      - name: Debug npm binary
+        if: ${{ steps.release.outputs.release_created || github.event_name == 'workflow_dispatch' }}
+        run: |
+          which npm
+          npm --version
+
       - name: Publish to npm
         run: npm publish --access public --provenance
         env:
           NODE_ENV: production
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.release.outputs.release_created || github.event_name == 'workflow_dispatch' }}
