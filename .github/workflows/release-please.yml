@@ -35,7 +35,6 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: "20"
-          registry-url: https://registry.npmjs.org
 
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
@@ -57,17 +56,8 @@ jobs:
       - name: Run build
         run: bun run build
 
-      - name: Configure npm for trusted publishing
-        run: |
-          echo "registry=https://registry.npmjs.org/" > "$RUNNER_TEMP/npmrc"
-          echo "always-auth=false" >> "$RUNNER_TEMP/npmrc"
-
       - name: Publish to npm
-        run: npm publish --access public --provenance --registry=https://registry.npmjs.org/
+        run: npm publish --access public --provenance
         env:
           NODE_ENV: production
-          NPM_CONFIG_PROVENANCE: "true"
-          NPM_CONFIG_ALWAYS_AUTH: "false"
-          NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
-          NPM_CONFIG_USERCONFIG: ${{ runner.temp }}/npmrc
         if: ${{ steps.release.outputs.release_created }}
