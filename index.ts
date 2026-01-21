@@ -1,1 +1,5 @@
-export { createEntityStore } from "./src/useEntity.ts";
+export {
+	createEntityStore,
+	entityStoreFactory,
+	getEntityActionsTanstack,
+} from "./src/useEntity.ts";
