@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.8-alpha](https://github.com/WookieFPV/use-entity/compare/v0.0.7-alpha...v0.0.8-alpha) (2026-01-21)
+
+
+### Bug Fixes
+
+* update deps ([1804d66](https://github.com/WookieFPV/use-entity/commit/1804d669509ea50ce6abcd7e9b7d2ec9e46c7c86))
+
 ## [0.0.7-alpha](https://github.com/WookieFPV/use-entity/compare/v0.0.6-alpha...v0.0.7-alpha) (2026-01-21)
 
 
