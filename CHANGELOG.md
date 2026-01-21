@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.9-alpha](https://github.com/WookieFPV/use-entity/compare/v0.0.8-alpha...v0.0.9-alpha) (2026-01-21)
+
+
+### Bug Fixes
+
+* disable pkg-pr-new to debug ([a154bd4](https://github.com/WookieFPV/use-entity/commit/a154bd4e0817b01543d175c081e63589d3df3f53))
+
 ## [0.0.8-alpha](https://github.com/WookieFPV/use-entity/compare/v0.0.7-alpha...v0.0.8-alpha) (2026-01-21)
 
 
