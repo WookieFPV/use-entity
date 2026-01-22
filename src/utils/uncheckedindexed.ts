@@ -10,7 +10,4 @@ export type IfUncheckedIndexedAccess<True, False> = IfMaybeUndefined<
 	False
 >;
 
-export type UncheckedIndexedAccess<T> = IfUncheckedIndexedAccess<
-	T | undefined,
-	T
->;
+export type UncheckedIndexedAccess<T> = IfUncheckedIndexedAccess<T | undefined, T>;

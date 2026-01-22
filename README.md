@@ -14,11 +14,11 @@ npm install use-entity
 ## Quick Start (TanStack React Store)
 
 ```tsx
-import { createEntityStore } from "use-entity";
+import { createEntityStoreTanstack } from "use-entity";
 
 type Todo = { id: string; title: string; done: boolean };
 
-const { useEntity } = createEntityStore<Todo>([
+const { useEntity } = createEntityStoreTanstack<Todo>([
 	{ id: "1", title: "Ship it", done: false },
 ]);
 
@@ -89,9 +89,9 @@ upsertOne, upsertMany
 ## Exports
 
 ```ts
-createEntityStore<T>(initial?: T[])
+createEntityStoreTanstack<T>(initial?: T[])
 entityStoreFactory<T>(initial?: T[])
-getEntityActionsTanstack<T>(store, adapter)
+getEntityActions<T>(store, adapter)
 ```
 
 ## Notes

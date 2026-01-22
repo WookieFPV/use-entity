@@ -1,5 +1,5 @@
 import type { EntityId, Update } from "@reduxjs/toolkit";
-import type { UncheckedIndexedAccess } from "./uncheckedindexed.ts";
+import type { UncheckedIndexedAccess } from "./utils/uncheckedindexed.ts";
 
 export interface EntityStateAdapter<T, Id extends EntityId> {
 	addOne(entity: T): void;
@@ -26,6 +26,8 @@ export interface EntityStateAdapter<T, Id extends EntityId> {
 
 	upsertMany(entities: readonly T[] | Record<Id, T>): void;
 }
+
+export type IdItem = { id: string };
 
 type Id<T> = {
 	[K in keyof T]: T[K];

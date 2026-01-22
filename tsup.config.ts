@@ -1,9 +1,7 @@
 import { readFileSync } from "node:fs";
 import { defineConfig } from "tsup";
 
-const pkg = JSON.parse(
-	readFileSync(new URL("./package.json", import.meta.url), "utf8"),
-) as {
+const pkg = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8")) as {
 	peerDependencies?: Record<string, string>;
 	dependencies?: Record<string, string>;
 };

@@ -2,7 +2,8 @@ import { describe, expect, test } from "bun:test";
 import { useStore } from "@tanstack/react-store";
 import { renderHook } from "@testing-library/react";
 import { act } from "react";
-import { entityStoreFactory } from "../useEntity.ts";
+
+import { entityStoreFactory } from "../adapter/tanstack.ts";
 
 type TestEntity = { id: string; name: string };
 
