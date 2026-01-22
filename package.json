@@ -1,5 +1,6 @@
 {
 	"name": "use-entity",
+	"version": "0.1.0-alpha",
 	"main": "dist/index.cjs",
 	"module": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -15,7 +16,6 @@
 	],
 	"sideEffects": false,
 	"type": "module",
-	"version": "0.0.9-alpha",
 	"scripts": {
 		"biome:check": "biome check",
 		"biome:fix": "biome check --write --unsafe",
