@@ -29,6 +29,12 @@ export interface EntityStateAdapter<T, Id extends EntityId> {
 
 export type IdItem = { id: string };
 
+export type InitialEntityState<T extends IdItem> =
+	| T[]
+	| Record<T["id"], T>
+	| (() => T[] | Record<T["id"], T>)
+	| undefined;
+
 type Id<T> = {
 	[K in keyof T]: T[K];
 } & {};

@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import { act, renderHook } from "@testing-library/react";
-
 import { createEntityStoreTanstack } from "../adapter/tanstack.ts";
 
 type TestEntity = { id: string; name: string };
@@ -241,6 +240,7 @@ describe("useEntity", () => {
 			{ id: "1", name: "Alpha" },
 			{ id: "2", name: "Beta" },
 		]);
+
 		const { result } = renderHook(() => useEntity("total"));
 		const [, actions] = result.current;
 

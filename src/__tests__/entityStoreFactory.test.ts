@@ -60,9 +60,7 @@ describe("entityStoreFactory", () => {
 	});
 
 	test("supports update/upsert actions", () => {
-		const { store, selectors, actions } = entityStoreFactory<TestEntity>([
-			{ id: "1", name: "Alpha" },
-		]);
+		const { store, selectors, actions } = entityStoreFactory<TestEntity>([{ id: "1", name: "Alpha" }]);
 
 		actions.updateOne({ id: "1", changes: { name: "Alpha+" } });
 		expect(selectors.full(store.state).byId("1")).toEqual({
@@ -119,9 +117,7 @@ describe("entityStoreFactory", () => {
 	});
 
 	test("useStore subscribes to full selector updates", () => {
-		const { store, selectors, actions } = entityStoreFactory<TestEntity>([
-			{ id: "1", name: "Alpha" },
-		]);
+		const { store, selectors, actions } = entityStoreFactory<TestEntity>([{ id: "1", name: "Alpha" }]);
 
 		const { result } = renderHook(() => useStore(store, selectors.full));
 

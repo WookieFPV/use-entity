@@ -6,10 +6,7 @@ const pkg = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), 
 	dependencies?: Record<string, string>;
 };
 
-const external = [
-	...Object.keys(pkg.peerDependencies ?? {}),
-	...Object.keys(pkg.dependencies ?? {}),
-];
+const external = [...Object.keys(pkg.peerDependencies ?? {}), ...Object.keys(pkg.dependencies ?? {})];
 
 export default defineConfig({
 	entry: ["index.ts"],

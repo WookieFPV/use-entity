@@ -14,16 +14,20 @@ const getEntityStateTanstack = <T extends IdItem>(
 
 export const noSelect = <T>(state: T): T => state;
 
+export type DataSelectors<T extends IdItem> = {
+	all: EntitySelectors<T, EntityState<T, T["id"]>, T["id"]>["selectAll"];
+	entities: EntitySelectors<T, EntityState<T, T["id"]>, T["id"]>["selectEntities"];
+	ids: EntitySelectors<T, EntityState<T, T["id"]>, T["id"]>["selectIds"];
+	total: EntitySelectors<T, EntityState<T, T["id"]>, T["id"]>["selectTotal"];
+	full: (state: EntityState<T, T["id"]>) => EntitySelectorsData<T, T["id"]>;
+};
+
 export const getSelectors = <T extends IdItem>(
 	baseSelectors: EntitySelectors<T, EntityState<T, T["id"]>, T["id"]>,
-) =>
-	({
-		all: baseSelectors.selectAll,
-		entities: baseSelectors.selectEntities,
-		ids: baseSelectors.selectIds,
-		total: baseSelectors.selectTotal,
-		full: (state) => getEntityStateTanstack(state, baseSelectors),
-	}) satisfies Record<
-		keyof Omit<EntitySelectorsData<T, T["id"]>, "byId"> | "full",
-		(state: EntityState<T, T["id"]>) => unknown
-	>;
+): DataSelectors<T> => ({
+	all: baseSelectors.selectAll,
+	entities: baseSelectors.selectEntities,
+	ids: baseSelectors.selectIds,
+	total: baseSelectors.selectTotal,
+	full: (state) => getEntityStateTanstack(state, baseSelectors),
+});

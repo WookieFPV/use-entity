@@ -7,9 +7,7 @@ import type { EntityStateAdapter, IdItem } from "../types.ts";
 export const entityStoreFactory = <T extends IdItem>(initialState?: T[]) => {
 	const adapter = createEntityAdapter<T>();
 	const store = new Store(
-		initialState
-			? adapter.setAll(adapter.getInitialState(), initialState)
-			: adapter.getInitialState(),
+		initialState ? adapter.setAll(adapter.getInitialState(), initialState) : adapter.getInitialState(),
 	);
 	const actions = getEntityActions(adapter, (updater) => store.setState(updater));
 	const selectors = getSelectors(adapter.getSelectors<EntityState<T, T["id"]>>(noSelect));
