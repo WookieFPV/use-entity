@@ -2,11 +2,12 @@ import { useStateEntity } from "../adapter/useState.ts";
 
 type User = { id: string; name: string };
 
-export const MyComponent = () => {
-	const [state, action] = useStateEntity<User>([], "total");
+export const ExampleUseStateEntity = () => {
+	const [state, action] = useStateEntity<User>([], "all");
 
 	action.addOne({ id: "1", name: "John" });
 	action.addMany([{ id: "2", name: "Peter" }]);
+	action.upsertOne({ id: "2", name: "Peter" });
 
 	console.log(state);
 
