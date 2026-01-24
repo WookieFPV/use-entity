@@ -1,7 +1,7 @@
-import { createEntityAdapter, type EntityState } from "@reduxjs/toolkit";
+import { createEntityAdapter } from "@reduxjs/toolkit";
 import { Store, useStore } from "@tanstack/react-store";
 import { getEntityActions } from "../actions.ts";
-import { getSelectors, noSelect } from "../selectors.ts";
+import { getSelectors } from "../selectors.ts";
 import type { EntityStateAdapter, IdItem } from "../types.ts";
 
 export const entityStoreFactory = <T extends IdItem>(initialState?: T[]) => {
@@ -10,7 +10,7 @@ export const entityStoreFactory = <T extends IdItem>(initialState?: T[]) => {
 		initialState ? adapter.setAll(adapter.getInitialState(), initialState) : adapter.getInitialState(),
 	);
 	const actions = getEntityActions(adapter, (updater) => store.setState(updater));
-	const selectors = getSelectors(adapter.getSelectors<EntityState<T, T["id"]>>(noSelect));
+	const selectors = getSelectors(adapter.getSelectors());
 	return { store, adapter, selectors, actions };
 };
 export const createEntityStoreTanstack = <T extends IdItem>(initialState?: T[]) => {

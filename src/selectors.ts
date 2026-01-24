@@ -12,8 +12,6 @@ const getEntityStateTanstack = <T extends IdItem>(
 	total: selectors.selectTotal(entityState),
 });
 
-export const noSelect = <T>(state: T): T => state;
-
 export type DataSelectors<T extends IdItem> = {
 	all: EntitySelectors<T, EntityState<T, T["id"]>, T["id"]>["selectAll"];
 	entities: EntitySelectors<T, EntityState<T, T["id"]>, T["id"]>["selectEntities"];

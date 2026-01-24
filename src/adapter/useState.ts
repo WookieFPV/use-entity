@@ -1,7 +1,7 @@
-import { createEntityAdapter, type EntityState } from "@reduxjs/toolkit";
+import { createEntityAdapter } from "@reduxjs/toolkit";
 import { useMemo, useState } from "react";
 import { getEntityActions } from "../actions.ts";
-import { type DataSelectors, getSelectors, noSelect } from "../selectors.ts";
+import { type DataSelectors, getSelectors } from "../selectors.ts";
 import type { EntityStateAdapter, IdItem, InitialEntityState } from "../types.ts";
 
 /**
@@ -33,22 +33,22 @@ type Return<T extends IdItem, S extends SelectorKey<T>> = [SelectorReturn<T, S>,
 // biome-ignore format: no selector => full
 export function useStateEntity<T extends IdItem>(): Return<T, "all">;
 
-// biome-ignore format: initial state  => full selector
+// biome-ignore format: initial state => full selector
 export function useStateEntity<T extends IdItem>(initialState: InitialEntityState<T>): Return<T, "all">;
 
 // biome-ignore format: initial state + selector
 export function useStateEntity<T extends IdItem>(initialState: InitialEntityState<T>, selector: "all"): Return<T, "all">;
 
-// biome-ignore format: initial state  + selector
+// biome-ignore format: initial state + selector
 export function useStateEntity<T extends IdItem>(initialState: InitialEntityState<T>, selector: "entities"): Return<T, "entities">;
 
-// biome-ignore format: initial state  + selector
+// biome-ignore format: initial state + selector
 export function useStateEntity<T extends IdItem>(initialState: InitialEntityState<T>, selector: "ids"): Return<T, "ids">;
 
-// biome-ignore format: initial state  + selector
+// biome-ignore format: initial state + selector
 export function useStateEntity<T extends IdItem>(initialState: InitialEntityState<T>, selector: "total"): Return<T, "total">;
 
-// biome-ignore format: initial state  + selector
+// biome-ignore format: initial state + selector
 export function useStateEntity<T extends IdItem>(initialState: InitialEntityState<T>, selector: "full"): Return<T, "full">;
 
 //  Keep it short
@@ -69,11 +69,7 @@ export function useStateEntity<T extends IdItem, K extends SelectorKey<T>>(
 	const actions = useMemo(() => getEntityActions(adapter, setState), [adapter]);
 
 	const data = useMemo(
-		() =>
-			getSelectors(adapter.getSelectors<EntityState<T, T["id"]>>(noSelect))[selectorKey](state) as SelectorReturn<
-				T,
-				SelectorOrFull<T, K>
-			>,
+		() => getSelectors(adapter.getSelectors())[selectorKey](state) as SelectorReturn<T, SelectorOrFull<T, K>>,
 		[state, adapter.getSelectors, selectorKey],
 	);
 

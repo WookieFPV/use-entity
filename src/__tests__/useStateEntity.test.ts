@@ -5,7 +5,7 @@ import { useStateEntity } from "../adapter/useState.ts";
 type TestEntity = { id: string; name: string };
 
 describe("useStateEntity", () => {
-	test("initializes with empty state", () => {
+	test("initializes with an empty state", () => {
 		const { result } = renderHook(() => useStateEntity<TestEntity>(undefined, "full"));
 		const [state] = result.current;
 
