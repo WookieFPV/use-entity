@@ -19,17 +19,17 @@ export const createEntityStoreTanstack = <T extends IdItem>(initialState?: T[]) 
 	type SelectorKey = keyof typeof selectors;
 	type SelectorReturn<K extends SelectorKey> = ReturnType<(typeof selectors)[K]>;
 
-	function useEntity(): [SelectorReturn<"full">, EntityStateAdapter<T, T["id"]>];
-	function useEntity(selector: "full"): [SelectorReturn<"full">, EntityStateAdapter<T, T["id"]>];
-	function useEntity<K extends Exclude<SelectorKey, "full">>(
+	function useEntity(): [SelectorReturn<"all">, EntityStateAdapter<T, T["id"]>];
+	function useEntity(selector: "all"): [SelectorReturn<"all">, EntityStateAdapter<T, T["id"]>];
+	function useEntity<K extends Exclude<SelectorKey, "all">>(
 		selector: K,
 	): [SelectorReturn<K>, EntityStateAdapter<T, T["id"]>];
 
-	function useEntity<K extends SelectorKey>(selector: K = "full" as K) {
+	function useEntity<K extends SelectorKey>(selector: K = "all" as K) {
 		const entityState = useStore(store, selectors[selector] as () => SelectorReturn<K>);
 
 		return [entityState, actions] satisfies [SelectorReturn<K>, EntityStateAdapter<T, T["id"]>];
 	}
 
-	return { useEntity, store, actions, adapter };
+	return { useEntity, store, actions, adapter, selectors };
 };

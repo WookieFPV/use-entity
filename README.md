@@ -11,6 +11,29 @@ actions that stay portable across state managers. Powered by Redux Toolkit's
 npm install use-entity
 ```
 
+## Quick Start (React useState)
+
+```tsx
+import { useStateEntity } from "use-entity";
+
+type User = { id: string; name: string };
+
+export function Users() {
+	const [users, actions] = useStateEntity<User>([], "all");
+
+	const addUsers = () => {
+		actions.addOne({ id: "1", name: "John" });
+	};
+
+	return (
+		<div>
+			<button onClick={addUsers}>Seed</button>
+			<pre>{JSON.stringify(users, null, 2)}</pre>
+		</div>
+	);
+}
+```
+
 ## Quick Start (TanStack React Store)
 
 ```tsx
@@ -23,12 +46,12 @@ const { useEntity } = createEntityStoreTanstack<Todo>([
 ]);
 
 function TodoList() {
-	const [state, actions] = useEntity();
+	const [todos, actions] = useEntity();
 
 	return (
 		<div>
 			<ul>
-				{state.all.map((todo) => (
+				{todos.map((todo) => (
 					<li key={todo.id}>{todo.title}</li>
 				))}
 			</ul>
@@ -44,10 +67,38 @@ function TodoList() {
 }
 ```
 
-## Selecting State
+## Plain TanStack Store Usage
 
-`useEntity()` returns the full selector object by default. You can also ask for
-a specific selector to reduce re-renders.
+```tsx
+import { useStore } from "@tanstack/react-store";
+import { createEntityStoreTanstack } from "use-entity";
+
+type User = { id: string; name: string };
+
+const { adapter, store, actions, selectors } = createEntityStoreTanstack<User>();
+
+export function UsersWithStore() {
+	const users = useStore(store, selectors.all);
+
+	const addUsers = () => {
+        // can use exported actions or with store.setState
+		actions.addOne({ id: "1", name: "John" });
+		store.setState((prev) => adapter.addOne(prev, { id: "2", name: "Peter" }));
+	};
+
+	return (
+		<div>
+			<button onClick={addUsers}>Seed</button>
+			<pre>{JSON.stringify(users, null, 2)}</pre>
+		</div>
+	);
+}
+```
+
+## Selectors
+
+`useEntity()` and `useStateEntity()` default to the `"all"` selector which return the array of items. You can
+opt into other selectors (including the full selector object) or access `byId`. (Based on [rtk docs](https://redux-toolkit.js.org/api/createEntityAdapter#selector-functions))
 
 ```tsx
 const [all] = useEntity("all");
@@ -55,11 +106,14 @@ const [ids] = useEntity("ids");
 const [entities] = useEntity("entities");
 const [total] = useEntity("total");
 const [full] = useEntity("full");
+
+const [allUsers] = useStateEntity<User>([], "all");
+const [fullUsers] = useStateEntity<User>([], "full");
 ```
 
 ```tsx
-const [state] = useEntity();
-const todo = state.byId("2");
+const [full] = useEntity("full");
+const todo = full.byId("2");
 ```
 
 The full selector object looks like:
@@ -91,10 +145,11 @@ upsertOne, upsertMany
 ```ts
 createEntityStoreTanstack<T>(initial?: T[])
 entityStoreFactory<T>(initial?: T[])
-getEntityActions<T>(store, adapter)
+getEntityActions<T>(adapter, setState)
+useStateEntity<T>(initial?: T[] | Record<string, T> | (() => T[] | Record<string, T>),
+  selector?: "all" | "ids" | "entities" | "total" | "full")
 ```
 
 ## Notes
 
-- `T` must include `id: string`.
-- Peer deps: `react`, `@reduxjs/toolkit`, `@tanstack/react-store`, `typescript`.
+- `T` must include `id: string` (number as id is not yet supported).
