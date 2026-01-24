@@ -1,9 +1,15 @@
 # use-entity
 
-Fast, typed entity state for React with minimal boilerplate. Use it to manage
-normalized collections with a ready-to-use hook, selector helpers, and adapter
-actions that stay portable across state managers. Powered by Redux Toolkit's
+Fast, typed entity state for React with minimal boilerplate. It gives you
+easy, consistent CRUD operations for normalized collections, plus a ready-to-use
+hook and selector helpers that stay portable across state managers.
+Powered by Redux Toolkit's
 [`createEntityAdapter`](https://redux-toolkit.js.org/api/createEntityAdapter).
+
+Why it’s useful:
+- CRUD-first API for collections (add, update, remove, upsert) with strong typing.
+- Minimal setup: a hook for React `useState` or a TanStack store integration.
+- Normalized data with built-in selectors (`all`, `ids`, `entities`, `byId`, `total`).
 
 ## Install
 
@@ -41,9 +47,7 @@ import { createEntityStoreTanstack } from "use-entity";
 
 type Todo = { id: string; title: string; done: boolean };
 
-const { useEntity } = createEntityStoreTanstack<Todo>([
-	{ id: "1", title: "Ship it", done: false },
-]);
+const { useEntity } = createEntityStoreTanstack<Todo>();
 
 function TodoList() {
 	const [todos, actions] = useEntity();
@@ -67,7 +71,7 @@ function TodoList() {
 }
 ```
 
-## Plain TanStack Store Usage
+## TanStack Store (Alternative API)
 
 ```tsx
 import { useStore } from "@tanstack/react-store";
@@ -93,6 +97,19 @@ export function UsersWithStore() {
 		</div>
 	);
 }
+```
+
+## Actions
+
+All actions mirror Redux Toolkit's entity adapter API
+([docs](https://redux-toolkit.js.org/api/createEntityAdapter#crud-functions)):
+
+```ts
+addOne, addMany,
+setOne, setMany, setAll,
+removeOne, removeMany, removeAll,
+updateOne, updateMany,
+upsertOne, upsertMany
 ```
 
 ## Selectors
@@ -126,19 +143,6 @@ The full selector object looks like:
 	total: number;
 	byId: (id: string) => T | undefined;
 }
-```
-
-## Actions
-
-All actions mirror Redux Toolkit's entity adapter API
-([docs](https://redux-toolkit.js.org/api/createEntityAdapter#crud-functions)):
-
-```ts
-addOne, addMany,
-setOne, setMany, setAll,
-removeOne, removeMany, removeAll,
-updateOne, updateMany,
-upsertOne, upsertMany
 ```
 ## Exports
 
