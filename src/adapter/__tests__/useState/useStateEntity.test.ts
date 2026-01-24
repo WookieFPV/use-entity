@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { act, renderHook } from "@testing-library/react";
-import { useStateEntity } from "../adapter/useState.ts";
+import { useStateEntity } from "../../useState.ts";
 
 type TestEntity = { id: string; name: string };
 

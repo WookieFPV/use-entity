@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { act, renderHook } from "@testing-library/react";
-import { createEntityStoreTanstack } from "../adapter/tanstack.ts";
+import { createEntityStoreTanstack } from "../../tanstack.ts";
 
 type TestEntity = { id: string; name: string };
 

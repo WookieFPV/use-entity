@@ -1,5 +1,5 @@
-import { useStateEntity } from "../adapter/useState.ts";
-import type { EntitySelectorsData } from "../types.ts";
+import type { EntitySelectorsData } from "../../../types.ts";
+import { useStateEntity } from "../../useState.ts";
 
 type User = { id: string; name: string };
 

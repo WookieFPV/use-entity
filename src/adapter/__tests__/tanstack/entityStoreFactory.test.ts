@@ -3,12 +3,12 @@ import { useStore } from "@tanstack/react-store";
 import { renderHook } from "@testing-library/react";
 import { act } from "react";
 
-import { entityStoreFactory } from "../adapter/tanstack.ts";
+import { entityStoreFactory } from "../../tanstack.ts";
 
 type TestEntity = { id: string; name: string };
 
 describe("entityStoreFactory", () => {
-	test("initializes with empty state when no initial entities are provided", () => {
+	test("initializes with an empty state when no initial entities are provided", () => {
 		const { store, selectors } = entityStoreFactory<TestEntity>();
 
 		const full = selectors.full(store.state);
