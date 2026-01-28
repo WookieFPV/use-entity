@@ -18,44 +18,41 @@ const initialTodos: Todo[] = [
 
 export function App() {
 	const [todos, actions] = useStateEntity(initialTodos);
-	const [title, setTitle] = useState("");
-	const [note, setNote] = useState("");
-	const [editingId, setEditingId] = useState<string | null>(null);
-	const [editingTitle, setEditingTitle] = useState("");
-	const [editingNote, setEditingNote] = useState("");
+	const [form, setForm] = useState({ title: "", note: "" });
+	const [editing, setEditing] = useState<null | { id: string; title: string; note: string }>(null);
+
+	const updateForm = (field: "title" | "note", value: string) => setForm((prev) => ({ ...prev, [field]: value }));
+
+	const updateEditing = (field: "title" | "note", value: string) =>
+		setEditing((prev) => (prev ? { ...prev, [field]: value } : prev));
 
 	const createTodo = () => {
-		const trimmedTitle = title.trim();
+		const trimmedTitle = form.title.trim();
 		if (!trimmedTitle) return;
 		actions.addOne({
 			id: newId(),
 			title: trimmedTitle,
-			note: note.trim(),
+			note: form.note.trim(),
 			done: false,
 		});
-		setTitle("");
-		setNote("");
+		setForm({ title: "", note: "" });
 	};
 
 	const startEdit = (todo: Todo) => {
-		setEditingId(todo.id);
-		setEditingTitle(todo.title);
-		setEditingNote(todo.note);
+		setEditing({ id: todo.id, title: todo.title, note: todo.note });
 	};
 
 	const cancelEdit = () => {
-		setEditingId(null);
-		setEditingTitle("");
-		setEditingNote("");
+		setEditing(null);
 	};
 
 	const saveEdit = () => {
-		if (!editingId) return;
-		const trimmedTitle = editingTitle.trim();
+		if (!editing) return;
+		const trimmedTitle = editing.title.trim();
 		if (!trimmedTitle) return;
 		actions.updateOne({
-			id: editingId,
-			changes: { title: trimmedTitle, note: editingNote.trim() },
+			id: editing.id,
+			changes: { title: trimmedTitle, note: editing.note.trim() },
 		});
 		cancelEdit();
 	};
@@ -68,13 +65,21 @@ export function App() {
 				<h2>Create</h2>
 				<label>
 					Title
-					<input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Write docs" />
+					<input
+						value={form.title}
+						onChange={(event) => updateForm("title", event.target.value)}
+						placeholder="Write docs"
+					/>
 				</label>
 				<label>
 					Note
-					<input value={note} onChange={(event) => setNote(event.target.value)} placeholder="Optional details" />
+					<input
+						value={form.note}
+						onChange={(event) => updateForm("note", event.target.value)}
+						placeholder="Optional details"
+					/>
 				</label>
-				<button type="button" onClick={createTodo} disabled={!title.trim()}>
+				<button type="button" onClick={createTodo} disabled={!form.title.trim()}>
 					Add todo
 				</button>
 			</div>
@@ -82,21 +87,27 @@ export function App() {
 			<ul className="todo-list">
 				{todos.length === 0 ? <li className="empty">No todos yet.</li> : null}
 				{todos.map((todo) => {
-					const isEditing = editingId === todo.id;
+					const isEditing = editing?.id === todo.id;
 					return (
 						<li key={todo.id} className={`todo-card${todo.done ? " done" : ""}`}>
 							{isEditing ? (
 								<div className="edit">
 									<label>
 										Title
-										<input value={editingTitle} onChange={(event) => setEditingTitle(event.target.value)} />
+										<input
+											value={editing?.title ?? ""}
+											onChange={(event) => updateEditing("title", event.target.value)}
+										/>
 									</label>
 									<label>
 										Note
-										<input value={editingNote} onChange={(event) => setEditingNote(event.target.value)} />
+										<input
+											value={editing?.note ?? ""}
+											onChange={(event) => updateEditing("note", event.target.value)}
+										/>
 									</label>
 									<div className="actions">
-										<button type="button" onClick={saveEdit} disabled={!editingTitle.trim()}>
+										<button type="button" onClick={saveEdit} disabled={!editing?.title.trim()}>
 											Save
 										</button>
 										<button type="button" onClick={cancelEdit}>

@@ -9,6 +9,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
 
+// biome-ignore lint/style/noNonNullAssertion: fine here
 const elem = document.getElementById("root")!;
 const app = (
 	<StrictMode>
