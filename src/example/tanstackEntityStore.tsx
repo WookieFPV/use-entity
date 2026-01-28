@@ -1,27 +1,35 @@
 import { useStore } from "@tanstack/react-store";
 import { createEntityStoreTanstack } from "../adapter/tanstack.ts";
 
-type User = { id: string; name: string };
+type Todo = { id: string; title: string; done: boolean };
 
-const { useEntity, store, actions, selectors } = createEntityStoreTanstack<User>();
+const { useEntity, store, actions, selectors } = createEntityStoreTanstack<Todo>();
 
-// useEntity with selector string:
+// useEntity with default selector ("all"):
 export const ExampleTanstackEntityStore = () => {
-	const [users, action] = useEntity("all");
+	const [todos, entityActions] = useEntity();
 
-	const onAdd = () => {
-		const id = String(Date.now());
-		action.addOne({ id, name: `User ${users.length + 1}` });
-	};
+	const addTodo = () =>
+		entityActions.addOne({ id: String(Date.now()), title: `Task ${todos.length + 1}`, done: false });
+
+	const toggleTodo = (todo: Todo) => entityActions.updateOne({ id: todo.id, changes: { done: !todo.done } });
 
 	return (
 		<div>
-			<button onClick={onAdd}>Add</button>
+			<button onClick={addTodo}>Add</button>
 			<ul>
-				{users.map((user) => (
-					<li key={user.id}>
-						{user.name}
-						<button onClick={() => action.removeOne(user.id)}>Delete</button>
+				{todos.map((todo) => (
+					<li key={todo.id}>
+						<button
+							type="button"
+							onClick={() => toggleTodo(todo)}
+							style={{ textDecoration: todo.done ? "line-through" : "none" }}
+						>
+							{todo.title}
+						</button>
+						<button type="button" onClick={() => entityActions.removeOne(todo.id)}>
+							Remove
+						</button>
 					</li>
 				))}
 			</ul>
@@ -30,22 +38,29 @@ export const ExampleTanstackEntityStore = () => {
 };
 
 // useStore (tanstack store) + store & selector from createEntityStoreTanstack:
-export const ExampleTanstackEntityStorePlain = () => {
-	const users = useStore(store, selectors.all);
+export const ExampleTanstackEntityStore2 = () => {
+	const todos = useStore(store, selectors.all);
+	const total = useStore(store, selectors.total);
 
-	const onAdd = () => {
-		const id = String(Date.now());
-		actions.addOne({ id, name: `User ${users.length + 1}` });
-	};
+	const addTodo = () => actions.addOne({ id: String(Date.now()), title: `Task ${todos.length + 1}`, done: false });
 
 	return (
 		<div>
-			<button onClick={onAdd}>Add</button>
+			<button onClick={addTodo}>Add</button>
+			<div>Total: {total}</div>
 			<ul>
-				{users.map((user) => (
-					<li key={user.id}>
-						{user.name}
-						<button onClick={() => actions.removeOne(user.id)}>Delete</button>
+				{todos.map((todo) => (
+					<li key={todo.id}>
+						<button
+							type="button"
+							onClick={() => actions.updateOne({ id: todo.id, changes: { done: !todo.done } })}
+							style={{ textDecoration: todo.done ? "line-through" : "none" }}
+						>
+							{todo.title}
+						</button>
+						<button type="button" onClick={() => actions.removeOne(todo.id)}>
+							Remove
+						</button>
 					</li>
 				))}
 			</ul>

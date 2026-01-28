@@ -9,7 +9,7 @@ const pkg = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), 
 const external = [...Object.keys(pkg.peerDependencies ?? {}), ...Object.keys(pkg.dependencies ?? {})];
 
 export default defineConfig({
-	entry: ["index.ts"],
+	entry: ["index.ts", "tanstack.ts"],
 	format: ["esm", "cjs"],
 	dts: true,
 	sourcemap: true,

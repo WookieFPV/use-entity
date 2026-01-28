@@ -1,6 +1,22 @@
 {
 	"name": "use-entity",
 	"version": "0.1.0-alpha",
+	"description": "Fast, typed entity state for React with CRUD actions and selectors.",
+	"keywords": [
+		"react",
+		"state",
+		"entity",
+		"crud"
+	],
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/WookieFPV/use-entity.git"
+	},
+	"bugs": {
+		"url": "https://github.com/WookieFPV/use-entity/issues"
+	},
+	"homepage": "https://github.com/WookieFPV/use-entity#readme",
 	"main": "dist/index.cjs",
 	"module": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -9,6 +25,11 @@
 			"types": "./dist/index.d.ts",
 			"import": "./dist/index.js",
 			"require": "./dist/index.cjs"
+		},
+		"./tanstack": {
+			"types": "./dist/tanstack.d.ts",
+			"import": "./dist/tanstack.js",
+			"require": "./dist/tanstack.cjs"
 		}
 	},
 	"files": [
@@ -45,5 +66,10 @@
 		"react": ">18.0.0",
 		"@reduxjs/toolkit": "^2.0.0",
 		"@tanstack/react-store": "0.8.0"
+	},
+	"peerDependenciesMeta": {
+		"@tanstack/react-store": {
+			"optional": true
+		}
 	}
 }

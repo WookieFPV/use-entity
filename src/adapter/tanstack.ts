@@ -13,6 +13,7 @@ export const entityStoreFactory = <T extends IdItem>(initialState?: T[]) => {
 	const selectors = getSelectors(adapter.getSelectors());
 	return { store, adapter, selectors, actions };
 };
+
 export const createEntityStoreTanstack = <T extends IdItem>(initialState?: T[]) => {
 	const { adapter, store, actions, selectors } = entityStoreFactory(initialState);
 

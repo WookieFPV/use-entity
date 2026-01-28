@@ -1,7 +1,7 @@
 import type { EntitySelectors, EntityState } from "@reduxjs/toolkit";
 import type { EntitySelectorsData, IdItem } from "./types.ts";
 
-const getEntityStateTanstack = <T extends IdItem>(
+const getEntitySelectorsFull = <T extends IdItem>(
 	entityState: EntityState<T, T["id"]>,
 	selectors: EntitySelectors<T, EntityState<T, T["id"]>, T["id"]>,
 ): EntitySelectorsData<T, T["id"]> => ({
@@ -27,5 +27,5 @@ export const getSelectors = <T extends IdItem>(
 	entities: baseSelectors.selectEntities,
 	ids: baseSelectors.selectIds,
 	total: baseSelectors.selectTotal,
-	full: (state) => getEntityStateTanstack(state, baseSelectors),
+	full: (state) => getEntitySelectorsFull(state, baseSelectors),
 });

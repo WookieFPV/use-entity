@@ -1,23 +1,30 @@
 import { useStateEntity } from "../adapter/useState.ts";
 
-type User = { id: string; name: string };
+type Todo = { id: string; title: string; done: boolean };
 
 export const ExampleUseStateEntity = () => {
-	const [users, action] = useStateEntity<User>();
+	const [todos, actions] = useStateEntity<Todo>();
 
-	const addUser = () => {
-		const id = String(Date.now());
-		action.addOne({ id, name: `User ${users.length + 1}` });
-	};
+	const addTodo = () => actions.addOne({ id: String(Date.now()), title: `Task ${todos.length + 1}`, done: false });
+
+	const toggleTodo = (todo: Todo) => actions.updateOne({ id: todo.id, changes: { done: !todo.done } });
 
 	return (
 		<div>
-			<button onClick={addUser}>Add user</button>
+			<button onClick={addTodo}>Add todo</button>
 			<ul>
-				{users.map((user) => (
-					<li key={user.id}>
-						{user.name}
-						<button onClick={() => action.removeOne(user.id)}>Delete</button>
+				{todos.map((todo) => (
+					<li key={todo.id}>
+						<button
+							type="button"
+							onClick={() => toggleTodo(todo)}
+							style={{ textDecoration: todo.done ? "line-through" : "none" }}
+						>
+							{todo.title}
+						</button>
+						<button type="button" onClick={() => actions.removeOne(todo.id)}>
+							Remove
+						</button>
 					</li>
 				))}
 			</ul>
