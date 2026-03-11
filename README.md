@@ -102,3 +102,11 @@ const user2 = full.byId("2");
 ## Notes
 
 - `T` must include `id: string` (number as id is not yet supported).
+
+## Releases
+
+This repo uses Changesets.
+
+1. For any user-facing package change, run `bun run changeset` and commit the generated file in `.changeset/`.
+2. When changesets reach `main`, GitHub Actions opens or updates a release PR with the version bump and generated `CHANGELOG.md`.
+3. Merge the release PR to publish.

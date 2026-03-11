@@ -17,6 +17,9 @@
 		"url": "https://github.com/WookieFPV/use-entity/issues"
 	},
 	"homepage": "https://github.com/WookieFPV/use-entity#readme",
+	"publishConfig": {
+		"access": "public"
+	},
 	"main": "dist/index.cjs",
 	"module": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -45,10 +48,14 @@
 		"build": "tsup",
 		"build:dev": "tsup --watch --clean false",
 		"typecheck": "tsc",
-		"prepublishOnly": "bun i && bun run biome:check && tsc && bun run test && bun run build"
+		"changeset": "changeset",
+		"version-packages": "changeset version",
+		"release": "changeset publish",
+		"prepublishOnly": "bun run biome:check && bun run typecheck && bun run test && bun run build"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.3.11",
+		"@changesets/cli": "2.30.0",
 		"@happy-dom/global-registrator": "20.1.0",
 		"@reduxjs/toolkit": "^2.0.0",
 		"@tanstack/react-store": "0.8.0",
