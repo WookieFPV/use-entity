@@ -1,23 +1,22 @@
-# use-entity
+# use-entity [![npm][npm-image]][npm-url] ![npm][npm-dl-stats]
 
-Fast, typed entity state for React with minimal boilerplate. It gives you
-consistent CRUD operations for normalized collections, plus a ready-to-use
-hook and selector helpers that stay portable across state managers. Powered by Redux Toolkit's
-[`createEntityAdapter`](https://redux-toolkit.js.org/api/createEntityAdapter).
+`useState`, but for normalized entity collections.
 
-Why it’s useful:
-- `useState`-like API for collections with CRUD actions.
-- CRUD-first API for collections (add, update, remove, upsert) with strong typing.
-- TanStack Store integration (see [docs](./tanstack-store-readme.md)).
-- Normalized data with built-in selectors (`all`, `ids`, `entities`, `byId`, `total`).
+`use-entity` gives you typed CRUD actions and selector helpers for collections backed by Redux Toolkit's [`createEntityAdapter`](https://redux-toolkit.js.org/api/createEntityAdapter). Use it for local React state or pair it with TanStack Store when the collection should live outside a single component.
 
 ## Install
 
 ```bash
-npm install use-entity
+npm install use-entity react @reduxjs/toolkit
 ```
 
-## Quick Start (React useState)
+Optional TanStack Store integration:
+
+```bash
+npm install @tanstack/react-store
+```
+
+## Quick Start
 
 ```tsx
 import { useStateEntity } from "use-entity";
@@ -25,69 +24,65 @@ import { useStateEntity } from "use-entity";
 type User = { id: string; name: string; age: number };
 
 export function Users() {
-    const [users, actions] = useStateEntity<User>();
+  const [users, actions] = useStateEntity<User>();
 
-    const addUser = () =>
-        actions.addOne({ id: String(Date.now()), name: `User ${users.length + 1}`, age: 20 });
+  const addUser = () =>
+    actions.addOne({
+      id: String(Date.now()),
+      name: `User ${users.length + 1}`,
+      age: 20
+    });
 
-    const birthday = (user: User) =>
-        actions.updateOne({ id: user.id, changes: { age: user.age + 1 } });
-    
-    return (
-        <div>
-            <button onClick={addUser}>Add user</button>
-            <ul>
-                {users.map((user) => (
-                    <li key={user.id}>
-                        <span>
-                            {user.name} ({user.age})
-                        </span>
-                        <button onClick={() => birthday(user)}>+1 age</button>
-                        <button onClick={() => actions.removeOne(user.id)}>Remove</button>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+  const birthday = (user: User) =>
+    actions.updateOne({
+      id: user.id,
+      changes: { age: user.age + 1 }
+    });
+
+  return (
+    <div>
+      <button onClick={addUser}>Add user</button>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            {user.name} ({user.age})
+            <button onClick={() => birthday(user)}>+1 age</button>
+            <button onClick={() => actions.removeOne(user.id)}>Remove</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
-
 ```
 
-## Actions
+## Included Actions
 
-All actions mirror Redux Toolkit's entity adapter API
-([docs](https://redux-toolkit.js.org/api/createEntityAdapter#crud-functions)):
+`use-entity` mirrors Redux Toolkit's entity adapter CRUD API:
 
 ```ts
-addOne, addMany,
-setOne, setMany, setAll,
-removeOne, removeMany, removeAll,
-updateOne, updateMany,
+addOne, addMany
+setOne, setMany, setAll
+removeOne, removeMany, removeAll
+updateOne, updateMany
 upsertOne, upsertMany
 ```
 
 ## Selectors
 
-`useEntity()` and `useStateEntity()` default to the `"all"` selector, which returns the array of items. You can
-opt into other selectors (including the full selector object) and access `byId`. (Based on [rtk docs](https://redux-toolkit.js.org/api/createEntityAdapter#selector-functions))
+Both `useStateEntity()` and the TanStack `useEntity()` hook default to the `"all"` selector.
 
-#### Selector options:
+Available selectors:
 
 ```ts
-all: T[];
-ids: string[];
-entities: Record<string, T>;
-total: number;
-full: {
-  all: T[];
-  ids: string[];
-  entities: Record<string, T>;
-  total: number;
-  byId: (id: string) => T | undefined;
-};
+"all"      // T[]
+"ids"      // string[]
+"entities" // Record<string, T>
+"total"    // number
+"full"     // all selectors + byId(id)
 ```
 
-#### Usage:
+Example:
 
 ```tsx
 const [all] = useStateEntity<User>([], "all");
@@ -96,17 +91,28 @@ const [entities] = useStateEntity<User>([], "entities");
 const [total] = useStateEntity<User>([], "total");
 const [full] = useStateEntity<User>([], "full");
 
-const user2 = full.byId("2");
+const user = full.byId("2");
 ```
+
+## TanStack Store
+
+For shared entity state, use the optional `use-entity/tanstack` entrypoint:
+
+```tsx
+import { createEntityStoreTanstack } from "use-entity/tanstack";
+
+type Todo = { id: string; title: string; done: boolean };
+
+const { useEntity } = createEntityStoreTanstack<Todo>();
+```
+
+See [tanstack-store-readme.md](./tanstack-store-readme.md) for the full TanStack Store example.
 
 ## Notes
 
-- `T` must include `id: string` (number as id is not yet supported).
+- Entities must include `id: string`
+- `@tanstack/react-store` is optional and only needed for the TanStack integration
 
-## Releases
-
-This repo uses Changesets.
-
-1. For any user-facing package change, run `bun run changeset` and commit the generated file in `.changeset/`.
-2. When changesets reach `main`, GitHub Actions opens or updates a release PR with the version bump and generated `CHANGELOG.md`.
-3. Merge the release PR to publish.
+[npm-image]: https://img.shields.io/npm/v/use-entity
+[npm-url]: https://www.npmjs.com/package/use-entity
+[npm-dl-stats]: https://img.shields.io/npm/dm/use-entity
