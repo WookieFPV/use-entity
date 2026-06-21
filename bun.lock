@@ -8,7 +8,7 @@
         "@biomejs/biome": "2.5.0",
         "@changesets/cli": "2.31.0",
         "@happy-dom/global-registrator": "20.10.6",
-        "@reduxjs/toolkit": "^2.12.0",
+        "@reduxjs/toolkit": "2.12.0",
         "@tanstack/react-store": "0.11.0",
         "@testing-library/dom": "10.4.1",
         "@testing-library/jest-dom": "6.9.1",
@@ -17,7 +17,8 @@
         "@types/react": "19.2.17",
         "@types/react-dom": "19.2.3",
         "lefthook": "2.1.9",
-        "react": "^19.2.7",
+        "react": "19.2.7",
+        "react-dom": "19.2.7",
         "tsup": "8.5.1",
       },
       "peerDependencies": {
@@ -462,7 +463,7 @@
 
     "react": ["react@19.2.7", "", {}, "sha512-HNe9WslTbXmFK8o8cmwgAeJFSBvt1bPdHCVKtaaV+WlAN36mpT4hcRpwbf3fY56ar2oIXzsBpOAiIRHAdY0OlQ=="],
 
-    "react-dom": ["react-dom@19.2.3", "", { "dependencies": { "scheduler": "^0.27.0" }, "peerDependencies": { "react": "^19.2.3" } }, "sha512-yELu4WmLPw5Mr/lmeEpox5rw3RETacE++JgHqQzd2dg+YbJuat3jH4ingc+WPZhxaoFzdv9y33G+F7Nl5O0GBg=="],
+    "react-dom": ["react-dom@19.2.7", "", { "dependencies": { "scheduler": "^0.27.0" }, "peerDependencies": { "react": "^19.2.7" } }, "sha512-t0BRVXvbiE/o20Hfw669rLbMCDWtYZLvmJigy2f0MxsXF+71pxhR3xOkspmsO8h3ZlNzyibAmtCa3l4lYKk6gQ=="],
 
     "react-is": ["react-is@17.0.2", "", {}, "sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w=="],
 
