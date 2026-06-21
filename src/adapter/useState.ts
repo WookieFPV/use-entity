@@ -66,11 +66,11 @@ export function useStateEntity<T extends IdItem, K extends SelectorKey<T>>(
 			: adapter.getInitialState(),
 	);
 
-	const actions = useMemo(() => getEntityActions(adapter, setState), [adapter]);
+	const actions = useMemo(() => getEntityActions(adapter, setState), []);
 
 	const data = useMemo(
 		() => getSelectors(adapter.getSelectors())[selectorKey](state) as SelectorReturn<T, SelectorOrFull<T, K>>,
-		[state, adapter.getSelectors, selectorKey],
+		[state, selectorKey],
 	);
 
 	return [data, actions];
