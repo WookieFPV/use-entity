@@ -74,7 +74,7 @@
 		"@biomejs/biome": "2.5.15",
 		"@changesets/cli": "3.0.3",
 		"@happy-dom/global-registrator": "21.0.4",
-		"@reduxjs/toolkit": "2.13.0",
+		"@reduxjs/toolkit": "2.14.0",
 		"@tanstack/react-store": "0.11.1",
 		"@testing-library/dom": "10.4.2",
 		"@testing-library/jest-dom": "7.0.1",
